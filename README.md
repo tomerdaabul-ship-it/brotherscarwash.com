@@ -1,30 +1,22 @@
-# האחים מכונית בע"מ 🚗💦🧽
+# 🚗💦 BrothersCarwash.com
 
-אתר להזמנת תורים וניהול משוב לקוחות עבור עסק שטיפת המכוניות "האחים מכונית בע"מ". האתר מותאם לעבודה במובייל ומאפשר ללקוחות לקבוע תור בקלות דרך וואטסאפ.
+Booking site for **האחים מכונית בע"מ** — lets users schedule carwash appointments on **Google Calendar**, see available times, book with WhatsApp confirmation, and leave star-reviews ⭐.
 
-## ✨ תכונות עיקריות
-* **הזמנת תורים:** בחירת שעה בטווח הפעילות (09:00 – 14:30) במרווחים של 35 דקות.
-* **אינטגרציה עם וואטסאפ:** שליחת פרטי ההזמנה ישירות לבעלי העסק.
-* **מערכת דירוג:** אפשרות ללקוחות להשאיר כוכבים ומשוב כתוב.
-* **ניהול תורים:** סימון שעות כתפוסות לאחר הזמנה (מבוסס LocalStorage).
-* **עיצוב רספונסיבי:** מותאם לכל המכשירים (טלפונים, טאבלטים ומחשבים).
-
-## 🚀 הוראות התקנה (Deployment)
-כדי להפעיל את האתר ב-GitHub Pages:
-1. העלו את הקובץ `index.html` למאגר (Repository).
-2. העלו תמונת רקע בשם `background.jpg` (או שנו את הנתיב בקוד ה-CSS).
-3. עברו ל-**Settings** -> **Pages**.
-4. תחת **Branch**, בחרו ב-`main` ולחצו על **Save**.
-
-## 🛠 הגדרות API
-הקוד כולל הכנה לחיבור עם Google Apps Script לצורך שמירת נתונים:
-- `CAL_API_URL`: הכתובת של ה-Web App שלכם.
-- `CAL_TOKEN`: קוד אבטחה פרטי לחיבור.
-
-## 💰 מחירון
-- **פנים + חוץ:** 60 ₪
-- **חוץ בלבד:** 25 ₪
-- **פנים בלבד:** 35 ₪
+📍 Hosted via **GitHub Pages**:  
+https://tomerdaabul-ship-it.github.io/brotherscarwash.com/
 
 ---
-© כל הזכויות שמורות להאחים מכונית בע"מ 🚗💦
+
+## 📌 Features
+
+- 📅 Choose a **date** (default configured for **Fridays**)  
+- 🕒 See **available time slots** based on your Google Calendar  
+- 📆 Create events in **Google Calendar**  
+- 💬 Open WhatsApp with filled details after booking  
+- 🌟 Leave **reviews + star rating**  
+- Works as a **static site** (no backend server required)
+
+---
+
+## 📁 Repository Structure
+
