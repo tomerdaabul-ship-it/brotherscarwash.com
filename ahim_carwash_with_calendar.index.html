@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>האחים מכונית בע"מ 🚗💦🧽</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('background.jpg') center/cover fixed no-repeat;
+      background-color: #e8f2ff;
+      color: #222;
+    }
+    header {
+      position: relative;
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 80, 160, 0.7);
+    }
+    header * { position: relative; z-index: 1; }
+    .team-note { position: absolute; left: 20px; top: 20px; font-weight: bold; }
+    section {
+      background: white;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 { color: #0a74da; }
+    ul { line-height: 1.8; }
+    button {
+      background: #0a74da;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: #085bb0; }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    footer { text-align: center; padding: 15px; color: #666; }
+
+    /* דירוג */
+    .rating-box {
+      position: fixed;
+      right: 20px;
+      top: 140px;
+      width: 230px;
+      background: #ffffffee;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+    .rating-box h3 { text-align: center; color: #0a74da; margin-top: 0; }
+    .stars { text-align: center; font-size: 22px; cursor: pointer; user-select: none; }
+    .stars span { filter: grayscale(100%); margin: 0 1px; }
+    .stars span.active { filter: grayscale(0%); }
+    .review { border-bottom: 1px solid #eee; padding: 10px 0; }
+    .stars-view { color: gold; margin: 4px 0; }
+    .hint { color: #666; font-size: 13px; margin-top: 6px; }
+    .status { margin-top: 10px; font-weight: bold; }
+
+    @media (max-width: 980px) {
+      .rating-box { position: static; width: auto; max-width: 900px; margin: 10px auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="team-note">👥 אנחנו 4 אנשים בעסק</div>
+  <h1>האחים מכונית בע"מ 🚗💦🧽</h1>
+  <p style="color:black;font-weight:bold;">
+    (🚗💦🧽 יהיו ימי שישי שלא תתקיים שטיפה בשל סיבות פרטיות, בבקשה הבינו זאת)
+  </p>
+</header>
+
+<!-- דירוג -->
+<div class="rating-box">
+  <h3>דרגו אותנו ⭐</h3>
+  <div class="stars" id="stars" aria-label="דירוג כוכבים">
+    <span data-value="1" title="1">⭐</span>
+    <span data-value="2" title="2">⭐</span>
+    <span data-value="3" title="3">⭐</span>
+    <span data-value="4" title="4">⭐</span>
+    <span data-value="5" title="5">⭐</span>
+  </div>
+  <input type="text" id="reviewName" placeholder="השם שלכם" />
+  <textarea id="feedback" placeholder="כתבו משוב קצר..."></textarea>
+  <button type="button" onclick="sendFeedback()">שלח משוב</button>
+</div>
+
+<div class="rating-box" style="top:360px;">
+  <h3>⭐ חוות דעת</h3>
+  <div id="reviewsList"></div>
+</div>
+
+<section>
+  <h2>שעות פתיחה</h2>
+  <p>🕘 09:00 – 14:30</p>
+  <p><strong>יום שישי בלבד</strong><br>חופשת פסח וחלק מהחופש הגדול</p>
+</section>
+
+<section>
+  <h2>מחירים</h2>
+  <ul>
+    <li>🚗 פנים + חוץ – 60 ₪</li>
+    <li>🚿 חוץ בלבד – 25 ₪</li>
+    <li>🧼 פנים בלבד – 35 ₪</li>
+  </ul>
+</section>
+
+<section>
+  <h2>זמן שטיפה</h2>
+  <ul>
+    <li>פנים + חוץ: 30–35 דקות</li>
+    <li>חוץ בלבד: 15–20 דקות</li>
+    <li>פנים בלבד: 20–25 דקות</li>
+  </ul>
+</section>
+
+<section>
+  <h2>הזמנת שטיפה</h2>
+  <p style="color:#c0392b;font-weight:bold;">
+    ⚠️ (האתר בודק תפוס לפי Google Calendar. אם מישהו לקח עכשיו את השעה, תופיע הודעה)
+  </p>
+
+  <form onsubmit="bookAndWhatsApp(event)">
+    <label for="name">שם מלא</label>
+    <input id="name" required />
+
+    <label for="phone">טלפון</label>
+    <input id="phone" type="tel" required />
+
+    <label for="service">סוג שטיפה</label>
+    <select id="service">
+      <option>פנים וחוץ – 60 ₪</option>
+      <option>חוץ בלבד – 25 ₪</option>
+      <option>פנים בלבד – 35 ₪</option>
+    </select>
+
+    <label for="date">תאריך (שישי בלבד)</label>
+    <input id="date" type="date" required />
+    <div class="hint">המערכת תאפשר רק ימי שישי. (אפשר לשנות אם תרצו)</div>
+
+    <label for="time">שעה (מרווחים של 35 דקות)</label>
+    <select id="time"></select>
+
+    <button type="submit">קבע תור + שלח בוואטסאפ</button>
+    <div id="bookingStatus" class="status"></div>
+  </form>
+</section>
+
+<footer>
+  © האחים מכונית בע"מ 🚗💦
+</footer>
+
+<script>
+  // ============================================================
+  // 1) חיבור ל-Google Calendar דרך Google Apps Script (JSONP)
+  // ============================================================
+  // הדביקו כאן את כתובת ה-Web App שלכם (מסתיימת ב-/exec)
+  const CAL_API_URL = "PASTE_YOUR_APPS_SCRIPT_WEBAPP_URL_HERE";
+  // הדביקו כאן את אותו SECRET_TOKEN שהגדרתם ב-Apps Script
+  const CAL_TOKEN = "PASTE_YOUR_SECRET_TOKEN_HERE";
+
+  // הגדרות תורים
+  const SLOT_MINUTES = 35;
+  const OPEN_MINUTES = 9 * 60;         // 09:00
+  const CLOSE_MINUTES = 14 * 60 + 30;  // 14:30
+
+  // JSONP helper (לפי עקרון prefix שמתואר בתיעוד של גוגל)
+  function jsonpRequest(params) {
+    return new Promise((resolve, reject) => {
+      const cb = "cb_" + Math.random().toString(36).slice(2);
+      params.prefix = cb;
+
+      const qs = new URLSearchParams(params).toString();
+      const url = `${CAL_API_URL}?${qs}`;
+
+      const script = document.createElement("script");
+      let timeout = null;
+
+      window[cb] = (data) => {
+        cleanup();
+        resolve(data);
+      };
+
+      script.onerror = () => {
+        cleanup();
+        reject(new Error("JSONP load error"));
+      };
+
+      function cleanup() {
+        if (timeout) clearTimeout(timeout);
+        delete window[cb];
+        if (script.parentNode) script.parentNode.removeChild(script);
+      }
+
+      // timeout למקרה שלא חוזר כלום
+      timeout = setTimeout(() => {
+        cleanup();
+        reject(new Error("JSONP timeout"));
+      }, 12000);
+
+      script.src = url;
+      document.body.appendChild(script);
+    });
+  }
+
+  // ============================================================
+  // 2) תאריך + יצירת שעות + בדיקת תפוס לפי היומן
+  // ============================================================
+  const dateInput = document.getElementById("date");
+  const timeSelect = document.getElementById("time");
+  const statusEl = document.getElementById("bookingStatus");
+
+  // min = היום
+  (function setMinDate(){
+    const today = new Date();
+    dateInput.min = toDateInputValue(today);
+    // ברירת מחדל: שישי הקרוב
+    dateInput.value = toDateInputValue(getNextFriday(today));
+  })();
+
+  // בכל שינוי תאריך: לוודא שישי + לטעון תפוסות מהיומן + לבנות רשימת שעות
+  dateInput.addEventListener("change", async () => {
+    statusEl.textContent = "";
+    const dateStr = dateInput.value;
+    if (!dateStr) return;
+
+    if (!isFriday(dateStr)) {
+      alert("אפשר לבחור רק יום שישי (שעות פתיחה אצלכם).");
+      dateInput.value = toDateInputValue(getNextFriday(new Date()));
+      return dateInput.dispatchEvent(new Event("change"));
+    }
+
+    await refreshTimesForDate(dateStr);
+  });
+
+  // טעינה ראשונית
+  (async function initBooking(){
+    if (!isFriday(dateInput.value)) {
+      dateInput.value = toDateInputValue(getNextFriday(new Date()));
+    }
+    await refreshTimesForDate(dateInput.value);
+  })();
+
+  async function refreshTimesForDate(dateStr) {
+    // 1) טען שעות תפוסות מהשרת (Google Calendar)
+    let busy = [];
+    try {
+      const resp = await jsonpRequest({
+        token: CAL_TOKEN,
+        action: "busy",
+        date: dateStr
+      });
+      if (!resp || !resp.ok) {
+        console.warn(resp);
+        busy = [];
+      } else {
+        busy = resp.busy || [];
+      }
+    } catch (err) {
+      console.warn(err);
+      busy = [];
+    }
+
+    // 2) בנה מחדש את רשימת השעות
+    buildTimeOptions(busy);
+  }
+
+  function buildTimeOptions(busyTimes) {
+    timeSelect.innerHTML = "";
+
+    let start = OPEN_MINUTES;
+    while (start + SLOT_MINUTES <= CLOSE_MINUTES) {
+      const h = String(Math.floor(start / 60)).padStart(2, "0");
+      const m = String(start % 60).padStart(2, "0");
+      const t = `${h}:${m}`;
+
+      const opt = document.createElement("option");
+      opt.value = t;
+      opt.textContent = t;
+
+      if (busyTimes.includes(t)) {
+        opt.disabled = true;
+        opt.textContent += " (תפוס)";
+      }
+
+      timeSelect.appendChild(opt);
+      start += SLOT_MINUTES;
+    }
+
+    // אם כל השעות תפוסות
+    if (!timeSelect.querySelector("option:not([disabled])")) {
+      const opt = document.createElement("option");
+      opt.value = "";
+      opt.textContent = "אין שעות פנויות ביום זה";
+      opt.disabled = true;
+      timeSelect.appendChild(opt);
+    }
+  }
+
+  function isFriday(dateStr) {
+    // dateStr: YYYY-MM-DD
+    const [y,m,d] = dateStr.split("-").map(Number);
+    const dt = new Date(y, m-1, d);
+    return dt.getDay() === 5; // Friday
+  }
+
+  function getNextFriday(fromDate) {
+    const d = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+    const day = d.getDay(); // 0=Sun .. 5=Fri
+    const delta = (5 - day + 7) % 7;
+    // אם היום שישי - נבחר את אותו יום, לא שבוע הבא
+    d.setDate(d.getDate() + delta);
+    return d;
+  }
+
+  function toDateInputValue(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  // ============================================================
+  // 3) קביעה ביומן + אחרי הצלחה שולחים וואטסאפ
+  // ============================================================
+  async function bookAndWhatsApp(e) {
+    e.preventDefault();
+    statusEl.textContent = "";
+
+    const fullName = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const service = document.getElementById("service").value;
+    const date = document.getElementById("date").value;
+    const time = document.getElementById("time").value;
+
+    if (!fullName || !phone || !date || !time) {
+      alert("אנא מלאו שם, טלפון, תאריך ושעה.");
+      return;
+    }
+    if (!isFriday(date)) {
+      alert("אפשר לבחור רק יום שישי.");
+      return;
+    }
+    if (!CAL_API_URL.includes("script.google.com")) {
+      alert("לא הוגדרה כתובת Google Apps Script (CAL_API_URL).");
+      return;
+    }
+
+    statusEl.textContent = "שומר תור ביומן...";
+
+    // 1) בקשה ליצירת אירוע ביומן
+    let resp;
+    try {
+      resp = await jsonpRequest({
+        token: CAL_TOKEN,
+        action: "book",
+        name: fullName,
+        phone: phone,
+        service: service,
+        date: date,
+        time: time,
+        duration: String(SLOT_MINUTES)
+      });
+    } catch (err) {
+      console.warn(err);
+      statusEl.textContent = "בעיה בחיבור לשרת. נסו שוב.";
+      return;
+    }
+
+    if (!resp || !resp.ok) {
+      if (resp && resp.error === "slot_taken") {
+        statusEl.textContent = "השעה כבר נתפסה. מרענן שעות...";
+        await refreshTimesForDate(date);
+        alert("השעה שנתפסת כבר תפוסה. בחרו שעה אחרת.");
+        return;
+      }
+      statusEl.textContent = "לא הצלחנו לקבוע ביומן (שגיאה).";
+      console.warn(resp);
+      alert("לא הצלחנו לקבוע ביומן. בדקו שהטוקן/URL נכונים, ונסו שוב.");
+      return;
+    }
+
+    statusEl.textContent = "התור נקבע ביומן! פותח וואטסאפ...";
+
+    // 2) רענון שעות כדי לסמן תפוס
+    await refreshTimesForDate(date);
+
+    // 3) פתיחת וואטסאפ עם הודעה
+    const msg =
+`הזמנה חדשה:
+שם: ${fullName}
+טלפון: ${phone}
+שירות: ${service}
+תאריך: ${date}
+שעה: ${time}`;
+
+    const url = `https://wa.me/972585378542?text=${encodeURIComponent(msg)}`;
+    window.location.href = url;
+  }
+
+  // ============================================================
+  // 4) דירוג + חוות דעת (נשאר LocalStorage כמו קודם)
+  // ============================================================
+  let selectedRating = 0;
+  const starEls = Array.from(document.querySelectorAll('#stars span'));
+
+  starEls.forEach((s, i) => {
+    s.addEventListener('click', () => {
+      selectedRating = i + 1;
+      starEls.forEach((x, idx) => x.classList.toggle('active', idx < selectedRating));
+    });
+  });
+
+  function loadReviews() {
+    const list = document.getElementById('reviewsList');
+    list.innerHTML = '';
+
+    let reviews = [];
+    try { reviews = JSON.parse(localStorage.getItem('reviews')) || []; }
+    catch (e) { reviews = []; }
+
+    if (!reviews.length) {
+      list.innerHTML = '<div style="color:#777;">עדיין אין חוות דעת.</div>';
+      return;
+    }
+
+    reviews.forEach(r => {
+      const d = document.createElement('div');
+      d.className = 'review';
+      const safeName = (r.name || 'לקוח אנונימי');
+      const safeText = (r.text || '');
+
+      d.innerHTML = `
+        <strong>${escapeHtml(safeName)}</strong>
+        <div class="stars-view">${'⭐'.repeat(Number(r.rating || 0))}</div>
+        <div>${escapeHtml(safeText)}</div>
+      `;
+      list.appendChild(d);
+    });
+  }
+
+  function sendFeedback() {
+    if (!selectedRating) {
+      alert('בחר כוכבים');
+      return;
+    }
+
+    const name = document.getElementById('reviewName').value.trim() || 'לקוח אנונימי';
+    const text = document.getElementById('feedback').value.trim();
+
+    if (!text) {
+      alert('אנא כתבו משוב קצר לפני השליחה.');
+      return;
+    }
+
+    let reviews = [];
+    try { reviews = JSON.parse(localStorage.getItem('reviews')) || []; }
+    catch (e) { reviews = []; }
+
+    reviews.unshift({
+      name,
+      rating: selectedRating,
+      text,
+      createdAt: new Date().toISOString()
+    });
+
+    localStorage.setItem('reviews', JSON.stringify(reviews));
+
+    document.getElementById('reviewName').value = '';
+    document.getElementById('feedback').value = '';
+    selectedRating = 0;
+    starEls.forEach(x => x.classList.remove('active'));
+
+    loadReviews();
+    alert('תודה! המשוב נשמר 👍');
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  loadReviews();
+</script>
+
+</body>
+</html>
